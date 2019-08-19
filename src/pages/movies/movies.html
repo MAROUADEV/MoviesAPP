@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-navbar  color='dark'>
+    <ion-title>All Movies</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click) = "search()">
+        <ion-icon name="md-search"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+     <ion-toolbar color="dark">
+      <div>
+  <ion-segment [(ngModel)]="all_movies">
+    <ion-segment-button value="now-playing" style="color:white;">
+      Now Playing
+    </ion-segment-button>
+    <ion-segment-button value="coming-soon" style="color:white">
+      Up Coming
+    </ion-segment-button>
+    <ion-segment-button value="top-rated" style="color:white">
+      Top Rated
+    </ion-segment-button>
+    
+  </ion-segment>
+</div>
+      </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+    <ion-refresher (ionRefresh)="doRefresh($event)"  >
+    <ion-refresher-content style="color:danger !important"
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-fab bottom right>
+      <button ion-fab color="danger" mini><ion-icon name="person-add"></ion-icon></button>
+      <ion-fab-list side="top">
+        <a href="https://web.facebook.com/MOATeam/" ion-fab><ion-icon name="logo-facebook"></ion-icon></a>
+        <a href="https://www.instagram.com/moateam.contact/" ion-fab><ion-icon name="logo-instagram"></ion-icon></a>
+        <a href="https://github.com/MOATeam" ion-fab><ion-icon name="logo-github"></ion-icon></a>
+      </ion-fab-list>
+    </ion-fab>
+
+    <div [ngSwitch]="all_movies">
+      <div *ngFor = 'let now of nowPlaying'>
+        <div *ngIf = 'now.backdrop_path!=null'>
+          <ion-card *ngSwitchCase="'now-playing'" color="darker">
+            <div (click) = "movieDetails(now.id)">
+              <img src="http://image.tmdb.org/t/p/w780{{now.backdrop_path}}"/>
+          <ion-card-content>
+              <ion-card-title>
+                <h1 style="text-align:center;font-weight:bold;">{{now.title}}</h1>
+                <h6 style="text-align:center"> <ion-icon  md="md-calendar"></ion-icon> {{now.release_date}}</h6>
+              </ion-card-title>
+
+              <p>
+                {{now.overview}}
+              </p>
+          </ion-card-content>
+        </div>
+      </ion-card>
+    </div>
+  </div>
+  
+  <div *ngFor = 'let up of upComing'>
+    <div *ngIf = 'up.backdrop_path!=null'>
+      <ion-card *ngSwitchCase="'coming-soon'" color="darker">
+        <div (click) = "movieDetails(up.id)">
+          <img src="http://image.tmdb.org/t/p/w780{{up.backdrop_path}}"/>
+      <ion-card-content>
+          <ion-card-title>
+            <h1 style="text-align:center;font-weight:bold;">{{up.title}}</h1>
+            <h6 style="text-align:center"> <ion-icon  md="md-calendar"></ion-icon> {{up.release_date}}</h6>
+          </ion-card-title>
+
+          <p>
+            {{up.overview}}
+          </p>
+        </ion-card-content>
+      </div>
+    </ion-card>
+  </div>
+  </div>
+
+  <div *ngFor = 'let top of topRated'>
+    <div *ngIf = 'top.backdrop_path!=null'>
+      <ion-card *ngSwitchCase="'top-rated'" color="darker">
+        <div (click) = "movieDetails(top.id)">
+          <img src="http://image.tmdb.org/t/p/w780{{top.backdrop_path}}"/>
+      <ion-card-content>
+          <ion-card-title>
+            <h1 style="text-align:center;font-weight:bold;">{{top.title}}</h1>
+            <h6 style="text-align:center"> <ion-icon  md="md-calendar"></ion-icon> {{top.release_date}}</h6>
+          </ion-card-title>
+
+          <p>
+            {{top.overview}}
+          </p>
+      </ion-card-content>
+    </div>
+  </ion-card>
+  </div>
+  </div>
+
+  
+</div>
+</ion-content>
+
+
+
